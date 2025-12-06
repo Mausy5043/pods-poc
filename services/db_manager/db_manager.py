@@ -7,14 +7,17 @@ from datetime import datetime
 
 DB_PATH = os.getenv("DB_PATH", "/data/pods-poc.db")
 BACKUP_DIR = os.getenv("BACKUP_DIR", "/data/backups")
-BACKUP_INTERVAL = int(os.getenv("BACKUP_INTERVAL", 8 * 3600))  # default: 3× per day
+# default: 3× per day
+BACKUP_INTERVAL = int(os.getenv("BACKUP_INTERVAL", 8 * 3600))
 
 
 def ensure_backup_dir():
+    """Ensure the configured backup directory exists."""
     os.makedirs(BACKUP_DIR, exist_ok=True)
 
 
 def backup_db():
+    """Copy the DB file to the backup directory with a timestamped name."""
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     dest = os.path.join(BACKUP_DIR, f"pods-poc_{ts}.db")
     if os.path.exists(DB_PATH):
