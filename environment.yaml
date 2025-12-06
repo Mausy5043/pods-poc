@@ -1,0 +1,32 @@
+name: pods-poc
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11
+  - pip
+
+  # Scientific/plotting
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+
+  # Web server
+  - flask
+
+  # Dev tools (similar to lektrix)
+  - black
+  - ruff
+  - mypy
+  - pre-commit
+
+  # Type hints
+  - types-python-dateutil
+  - types-pytz
+  - types-requests
+
+  # pip section for any fallback packages
+  - pip:
+      - gunicorn  # optional, useful for testing the web server
+

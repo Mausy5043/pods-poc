@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+  collector:
+    build:
+      context: .
+      dockerfile: containers/collector/Dockerfile
+    image: poc-lektrix-collector:latest
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    networks:
+      - lektrix-net
+
+  trend:
+    build:
+      context: .
+      dockerfile: containers/trend/Dockerfile
+    image: poc-lektrix-trend:latest
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    networks:
+      - lektrix-net
+
+  web:
+    build:
+      context: .
+      dockerfile: containers/web/Dockerfile
+    image: poc-lektrix-web:latest
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    networks:
+      - lektrix-net
+
+  storage:
+    build:
+      context: .
+      dockerfile: containers/storage/Dockerfile
+    image: poc-lektrix-storage:latest
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    networks:
+      - lektrix-net
+
+volumes:
+  data:
+
+networks:
+  lektrix-net:
+    driver: bridge
+
