@@ -44,4 +44,7 @@ Key facts an AI code assistant should know to be productive here:
 - When opening PRs
   - Document why a change alters cross-service behavior (e.g., DB schema changes, different file paths, or backup timing). Mention how you validated changes locally (which services you ran and sample output).
 
+- Agent edit policy
+  - Agents are allowed to make inline, minimal edits to repository files when explicitly requested by a human. Keep changes small, follow existing patterns, and run quick local checks (run the modified script or read it) when feasible. Document edits in the commit message or PR description and prefer non-destructive changes (do not delete unrelated code).
+
 If any section is unclear or you want me to include extra automation (tests, linting, or a developer Makefile), say which area to expand and I'll update this file.
