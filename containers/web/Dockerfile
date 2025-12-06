@@ -16,4 +16,4 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 
 EXPOSE 8000
 
-CMD ["python", "-u", "src/web/server.py"]
+CMD ["python", "-u", "services/web/server.py"]

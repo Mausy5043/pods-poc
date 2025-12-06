@@ -1,22 +1,28 @@
+#!/usr/bin/env python3
+
+import os
+import random
 import sqlite3
 import time
-import random
 from datetime import datetime
-import os
 
-DB_PATH = os.getenv("DB_PATH", "/data/lektrix.db")
+DB_PATH = os.getenv("DB_PATH", "/data/pods-poc.db")
+
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute("""
+    cur.execute(
+        """
         CREATE TABLE IF NOT EXISTS measurements (
             ts INTEGER PRIMARY KEY,
             value REAL NOT NULL
         );
-    """)
+    """
+    )
     conn.commit()
     conn.close()
+
 
 def insert_measurement(value):
     conn = sqlite3.connect(DB_PATH)
@@ -27,6 +33,7 @@ def insert_measurement(value):
     conn.close()
     print(f"[collector] {datetime.fromtimestamp(ts)} value={value}")
 
+
 def main():
     init_db()
     while True:
@@ -34,6 +41,6 @@ def main():
         insert_measurement(value)
         time.sleep(10)
 
+
 if __name__ == "__main__":
     main()
-

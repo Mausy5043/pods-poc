@@ -1,17 +1,23 @@
+#!/usr/bin/env python3
+
+import os
 import sqlite3
 import time
 from datetime import datetime
-import matplotlib.pyplot as plt
-import os
 
-DB_PATH = os.getenv("DB_PATH", "/data/lektrix.db")
+import matplotlib.pyplot as plt
+
+DB_PATH = os.getenv("DB_PATH", "/data/pods-poc.db")
 PLOT_PATH = os.getenv("PLOT_PATH", "/data/plot.png")
+
 
 def generate_plot():
     cutoff = int(time.time()) - 3600
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute("SELECT ts, value FROM measurements WHERE ts >= ? ORDER BY ts ASC", (cutoff,))
+    cur.execute(
+        "SELECT ts, value FROM measurements WHERE ts >= ? ORDER BY ts ASC", (cutoff,)
+    )
     rows = cur.fetchall()
     conn.close()
 
@@ -33,11 +39,12 @@ def generate_plot():
 
     print(f"[trend] Plot updated at {datetime.now()}")
 
+
 def main():
     while True:
         generate_plot()
         time.sleep(60)
 
+
 if __name__ == "__main__":
     main()
-

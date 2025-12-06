@@ -2,7 +2,7 @@
 FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1
-ENV DB_PATH=/data/lektrix.db
+ENV DB_PATH=/data/pods-poc.db
 
 WORKDIR /app
 
@@ -18,4 +18,4 @@ COPY . /app
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # collector entrypoint
-CMD ["python", "-u", "src/collector/collector.py"]
+CMD ["python", "-u", "services/collector/collector.py"]

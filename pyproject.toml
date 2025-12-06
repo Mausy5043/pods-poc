@@ -46,10 +46,10 @@ ignore_missing_imports = true
 disallow_untyped_calls = false
 disallow_untyped_defs = false
 files = [
-    "src/collector",
-    "src/trend",
-    "src/web",
-    "src/db_manager",
+    "services/collector",
+    "services/trend",
+    "services/web",
+    "services/db_manager",
 ]
 
 [tool.pylint.MASTER]

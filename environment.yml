@@ -19,7 +19,7 @@ dependencies:
   # Web server
   - flask
 
-  # Dev tools (similar to lektrix)
+  # Dev tools
   - black
   - ruff
   - mypy

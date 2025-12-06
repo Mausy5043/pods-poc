@@ -15,7 +15,7 @@ web:
   plot_file: "/data/plots/trend.png"
 
 storage:
-  backup_times: ["00:00", "08:00", "16:00"]   # 3 backups per day
+  backup_times: ["00:01", "08:01", "16:01"]   # 3 backups per day
   dropbox_remote: "dropbox:pods-poc_poc"       # rclone remote
   local_data_dir: "/data"
   on_start_sync: true

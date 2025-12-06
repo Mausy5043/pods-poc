@@ -2,7 +2,7 @@
 FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1
-ENV DB_PATH=/data/lektrix.db
+ENV DB_PATH=/data/pods-poc.db
 ENV BACKUP_DIR=/data/backups
 ENV BACKUP_INTERVAL=28800
 
@@ -16,4 +16,4 @@ COPY . /app
 
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-CMD ["python", "-u", "src/db_manager/db_manager.py"]
+CMD ["python", "-u", "services/db_manager/db_manager.py"]

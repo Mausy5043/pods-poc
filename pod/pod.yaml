@@ -6,19 +6,19 @@ spec:
   containers:
     - name: collector
       image: pods-poc-collector:latest
-      command: ["python","-u","src/collector/collector.py"]
+      command: ["python","-u","services/collector/collector.py"]
       volumeMounts:
         - name: data
           mountPath: /data
     - name: trend
       image: pods-poc-trend:latest
-      command: ["python","-u","src/trend/trend.py"]
+      command: ["python","-u","services/trend/trend.py"]
       volumeMounts:
         - name: data
           mountPath: /data
     - name: web
       image: pods-poc-web:latest
-      command: ["python","-u","src/web/server.py"]
+      command: ["python","-u","services/web/server.py"]
       ports:
         - containerPort: 8000
       volumeMounts:
@@ -26,7 +26,7 @@ spec:
           mountPath: /data
     - name: storage
       image: pods-poc-storage:latest
-      command: ["python","-u","src/db_manager/db_manager.py"]
+      command: ["python","-u","services/db_manager/db_manager.py"]
       volumeMounts:
         - name: data
           mountPath: /data
