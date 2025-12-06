@@ -35,7 +35,7 @@ def plot():
 
 
 if __name__ == "__main__":
-  # Default to loopback for safety; override in container with WEB_HOST.
-  host = os.getenv("WEB_HOST", "127.0.0.1")
-  port = int(os.getenv("WEB_PORT", "8000"))
-  app.run(host=host, port=port)
+    # Default to loopback for safety; override in container with WEB_HOST.
+    host = os.getenv("WEB_HOST", "127.0.0.1")
+    port = int(os.getenv("WEB_PORT", "8000"))
+    app.run(host=host, port=port)
