@@ -42,7 +42,8 @@ def insert_measurement(value):
 def main():
     init_db()
     while True:
-        value = random.uniform(0, 100)
+        # Generated values are simulated measurements (non-crypto).
+        value = random.uniform(0, 100)  # nosec B311 - simulated
         insert_measurement(value)
         time.sleep(10)
 
