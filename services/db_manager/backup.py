@@ -4,6 +4,7 @@
 
 from .db_manager import backup_db
 
+
 def main() -> None:
     """Run the DB backup function.
 

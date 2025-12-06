@@ -25,9 +25,7 @@ def generate_plot() -> None:
     cutoff = int(time.time()) - 3600
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute(
-        "SELECT ts, value FROM measurements WHERE ts >= ? ORDER BY ts ASC", (cutoff,)
-    )
+    cur.execute("SELECT ts, value FROM measurements WHERE ts >= ? ORDER BY ts ASC", (cutoff,))
     rows = cur.fetchall()
     conn.close()
 

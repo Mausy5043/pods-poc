@@ -36,10 +36,6 @@ fix = true
 indent-width = 4
 line-length = 98
 target-version = "py312"
-select = ["E", "F", "W", "I", "B", "C4"]
-ignore = [
-    "E501",  # line length handled by Black
-]
 output-format = "concise"
 include = ["pyproject.toml", "bin/**/*.py"]
 exclude = [
@@ -61,10 +57,6 @@ ignore = [
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
 unfixable = []
-
-[tool.ruff.isort]
-known-first-party = ["collector", "trend", "web", "db_manager"]
-combine-as-imports = true
 
 [tool.mypy]
 exclude = [
