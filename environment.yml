@@ -1,3 +1,7 @@
+# when changing this file also consider `pyproject.toml` and `requirements.txt`
+# Usage:
+# conda -v env update --file environment.yml; pre-commit run --all-files; pycheck
+
 name: pods-poc
 channels:
   - conda-forge
@@ -29,4 +33,3 @@ dependencies:
   # pip section for any fallback packages
   - pip:
       - gunicorn  # optional, useful for testing the web server
-
