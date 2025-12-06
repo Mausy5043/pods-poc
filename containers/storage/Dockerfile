@@ -1,5 +1,5 @@
 # containers/storage/Dockerfile
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1
 ENV DB_PATH=/data/lektrix.db
@@ -17,4 +17,3 @@ COPY . /app
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 CMD ["python", "-u", "src/db_manager/db_manager.py"]
-

@@ -1,5 +1,5 @@
 # containers/web/Dockerfile
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1
 ENV PLOT_PATH=/data/plot.png
@@ -17,4 +17,3 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 EXPOSE 8000
 
 CMD ["python", "-u", "src/web/server.py"]
-

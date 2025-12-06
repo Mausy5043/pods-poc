@@ -1,0 +1,61 @@
+[project]
+name = "pods-poc"
+version = "0.1.0"
+description = "Proof-of-concept for containerized architecture"
+authors = [
+    { name = "mausy5043" }
+]
+requires-python = ">=3.12"
+
+# These are optional for development; Docker images install via requirements.txt.
+dependencies = [
+    "flask",
+    "matplotlib",
+    "pandas",
+    "numpy",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+include = '\.pyi?$'
+extend-exclude = """
+(
+    ^/data
+)
+"""
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+select = ["E", "F", "W", "I", "B", "C4"]
+ignore = [
+    "E501",  # line length handled by Black
+]
+
+[tool.ruff.isort]
+known-first-party = ["collector", "trend", "web", "db_manager"]
+combine-as-imports = true
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_configs = true
+warn_unreachable = true
+ignore_missing_imports = true
+disallow_untyped_calls = false
+disallow_untyped_defs = false
+files = [
+    "src/collector",
+    "src/trend",
+    "src/web",
+    "src/db_manager",
+]
+
+[tool.pylint.MASTER]
+ignore = [
+    "data",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}

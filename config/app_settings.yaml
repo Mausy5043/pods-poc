@@ -1,0 +1,22 @@
+database:
+  path: "/data/app.db"          # mounted volume shared across containers
+  backup_dir: "/data/backups"   # local backup directory
+
+collector:
+  interval_seconds: 10          # how often to write a random value
+
+trend:
+  plot_output_path: "/data/plots"   # shared volume for generated plots
+  lookback_hours: 1
+
+web:
+  host: "0.0.0.0"
+  port: 8080
+  plot_file: "/data/plots/trend.png"
+
+storage:
+  backup_times: ["00:00", "08:00", "16:00"]   # 3 backups per day
+  dropbox_remote: "dropbox:pods-poc_poc"       # rclone remote
+  local_data_dir: "/data"
+  on_start_sync: true
+  on_shutdown_sync: true

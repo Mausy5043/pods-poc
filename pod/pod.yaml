@@ -1,23 +1,23 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: poc-lektrix-pod
+  name: pods-poc-pod
 spec:
   containers:
     - name: collector
-      image: poc-lektrix-collector:latest
+      image: pods-poc-collector:latest
       command: ["python","-u","src/collector/collector.py"]
       volumeMounts:
         - name: data
           mountPath: /data
     - name: trend
-      image: poc-lektrix-trend:latest
+      image: pods-poc-trend:latest
       command: ["python","-u","src/trend/trend.py"]
       volumeMounts:
         - name: data
           mountPath: /data
     - name: web
-      image: poc-lektrix-web:latest
+      image: pods-poc-web:latest
       command: ["python","-u","src/web/server.py"]
       ports:
         - containerPort: 8000
@@ -25,7 +25,7 @@ spec:
         - name: data
           mountPath: /data
     - name: storage
-      image: poc-lektrix-storage:latest
+      image: pods-poc-storage:latest
       command: ["python","-u","src/db_manager/db_manager.py"]
       volumeMounts:
         - name: data
@@ -34,6 +34,5 @@ spec:
   volumes:
     - name: data
       hostPath:
-        path: /srv/poc-lektrix/data   # <-- CHANGE THIS to your host absolute path
+        path: /srv/pods-poc/data   # <-- CHANGE THIS to your host absolute path
         type: DirectoryOrCreate
-

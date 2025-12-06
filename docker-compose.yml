@@ -4,52 +4,51 @@ services:
     build:
       context: .
       dockerfile: containers/collector/Dockerfile
-    image: poc-lektrix-collector:latest
+    image: pods-poc-collector:latest
     restart: unless-stopped
     volumes:
       - ./data:/data
     networks:
-      - lektrix-net
+      - pods-poc-net
 
   trend:
     build:
       context: .
       dockerfile: containers/trend/Dockerfile
-    image: poc-lektrix-trend:latest
+    image: pods-poc-trend:latest
     restart: unless-stopped
     volumes:
       - ./data:/data
     networks:
-      - lektrix-net
+      - pods-poc-net
 
   web:
     build:
       context: .
       dockerfile: containers/web/Dockerfile
-    image: poc-lektrix-web:latest
+    image: pods-poc-web:latest
     restart: unless-stopped
     ports:
       - "8000:8000"
     volumes:
       - ./data:/data
     networks:
-      - lektrix-net
+      - pods-poc-net
 
   storage:
     build:
       context: .
       dockerfile: containers/storage/Dockerfile
-    image: poc-lektrix-storage:latest
+    image: pods-poc-storage:latest
     restart: unless-stopped
     volumes:
       - ./data:/data
     networks:
-      - lektrix-net
+      - pods-poc-net
 
 volumes:
   data:
 
 networks:
-  lektrix-net:
+  pods-poc-net:
     driver: bridge
-
