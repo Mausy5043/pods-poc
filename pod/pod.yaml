@@ -34,5 +34,5 @@ spec:
   volumes:
     - name: data
       hostPath:
-        path: /srv/pods-poc/data   # <-- CHANGE THIS to your host absolute path
+        path: /srv/pods-poc/data
         type: DirectoryOrCreate
