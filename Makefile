@@ -47,8 +47,8 @@ rebuild: ensure-deps
 
 ## Create pod
 pod-create:
-	@echo "Creating pod $(POD_NAME) (port 8000 exposed)..."
-	-podman pod inspect $(POD_NAME) >/dev/null 2>&1 || podman pod create --name $(POD_NAME) -p 8000:8000
+	@echo "Creating pod $(POD_NAME) (port 8000 exposed, container port 80)..."
+	-podman pod inspect $(POD_NAME) >/dev/null 2>&1 || podman pod create --name $(POD_NAME) -p 8000:80
 
 pod-rm:
 	@echo "Removing pod $(POD_NAME)"
@@ -59,6 +59,7 @@ pull-db:
 	@if [ -z "$(RCLONE_REMOTE)" ]; then \
 		echo "RCLONE_REMOTE is empty; set RCLONE_REMOTE=dropbox:pods-poc_poc"; exit 1; \
 	fi
+	@$(MAKE) check-rclone-config || true
 	@echo "Running initial DB pull from $(RCLONE_REMOTE) into $(DATA_DIR)"
 	podman run --rm -v $(DATA_DIR):/data -e RCLONE_REMOTE=$(RCLONE_REMOTE) $(IMAGE_STORAGE) pull
 
@@ -68,6 +69,7 @@ start: pod-create
 	mkdir -p $(DATA_DIR)
 	@if [ -n "$(RCLONE_REMOTE)" ]; then \
 		echo "Performing initial DB pull..."; \
+		$(MAKE) check-rclone-config || true; \
 		podman run --rm -v $(DATA_DIR):/data -e RCLONE_REMOTE=$(RCLONE_REMOTE) $(IMAGE_STORAGE) pull; \
 	else \
 		echo "No RCLONE_REMOTE provided; skipping initial DB pull"; \
@@ -134,3 +136,16 @@ rclone-config:
 	@echo "  # mount single file (explicit):"
 	@echo "  podman run --rm -v ~/.config/rclone/rclone.conf:/config/rclone.conf -v $(DATA_DIR):/data -e RCLONE_REMOTE=dropbox:pods-poc $(IMAGE_STORAGE) pull"
 	@echo "If you prefer host rclone for interactive 'rclone config' steps, install rclone on your workstation and create the config, then mount it into the container as shown above."
+
+check-rclone-config:
+	@if [ -n "$(RCLONE_REMOTE)" ]; then \
+		if [ -f "$$HOME/.config/rclone/rclone.conf" ]; then \
+			echo "rclone config found at $$HOME/.config/rclone/rclone.conf"; \
+		else \
+			echo "WARNING: RCLONE_REMOTE is set but no rclone config found at $$HOME/.config/rclone/rclone.conf."; \
+			echo "Either mount your host rclone config into the storage container (see 'make rclone-config')"; \
+			false; \
+		fi; \
+	else \
+		echo "RCLONE_REMOTE not set; skipping rclone config check"; \
+	fi

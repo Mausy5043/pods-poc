@@ -107,13 +107,14 @@ podman run --rm -v ~/.config/rclone:/config -v $(pwd)/data:/data -e RCLONE_REMOT
 
 ## Running locally (without containers)
 
-You can run individual services directly for development. Example (web server):
+For local development you can run individual Python services directly (collector/trend/db_manager). The web front-end is served by the `containers/web` nginx image in normal operation; to preview the static page locally without containers, use a simple static HTTP server from the directory that contains `index.html` and a `data/` directory with a `plot.png`:
 
 ```bash
-python services/web/server.py
+python -m http.server 8000 --directory containers/web
+# then open http://localhost:8000 in your browser
 ```
 
-The web server listens on the port configured by environment or `config/app_settings.yaml` (Makefile pod maps port 8000 by default).
+When running in containers the Makefile maps host port `8000` → container port `80` so the site is available at `http://<host>:8000`.
 
 ## rclone / credentials
 
@@ -127,7 +128,7 @@ There are example `systemd` service and timer units in `examples/systemd/` showi
 
 - `services/collector/collector.py` — DB schema and insert pattern.
 - `services/trend/trend.py` — SQL query and Matplotlib plotting.
-- `services/web/server.py` — Flask app that serves the generated plot.
+- `containers/web/index.html` — static front-end served by nginx; the generated plot is read from the mounted `/data/plot.png`.
 - `services/db_manager/scripts/` — helper shell scripts used by the storage image.
 - `config/app_settings.yaml` — canonical runtime defaults.
 

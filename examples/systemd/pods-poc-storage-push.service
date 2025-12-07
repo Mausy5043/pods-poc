@@ -8,6 +8,9 @@ Type=oneshot
 User=root
 WorkingDirectory=/path/to/repo
 Environment=RCLONE_REMOTE=dropbox:pods-poc_poc
+# Recommended for Arch: mount your rclone config into /config inside the container
+# Example (mount host ~/.config/rclone):
+# ExecStart=/usr/bin/podman run --rm -v ~/.config/rclone:/config -v /path/to/repo/data:/data -e RCLONE_REMOTE=$RCLONE_REMOTE pods-poc-storage:latest push
 ExecStart=/usr/bin/podman run --rm -v /path/to/repo/data:/data -e RCLONE_REMOTE=$RCLONE_REMOTE pods-poc-storage:latest push
 TimeoutStartSec=5m
 

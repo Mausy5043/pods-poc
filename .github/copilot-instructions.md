@@ -7,7 +7,7 @@ Key facts an AI code assistant should know to be productive here:
 - Architecture: four lightweight services live in `services/` and are containerized under `containers/`.
   - `services/collector/collector.py` — writes randomized measurements into a SQLite DB.
   - `services/trend/trend.py` — reads recent measurements, renders a Matplotlib plot to disk.
-  - `services/web/server.py` — simple Flask app that serves the generated plot.
+  - `containers/web` — an `nginx` container that serves the static `index.html` and the generated `plot.png` from the shared `/data` volume.
   - `services/db_manager/db_manager.py` — now implemented as a one-shot backup runner; helper scripts for pull/push/backup live in `services/db_manager/scripts/` and are copied into the `containers/storage` image.
   - `pod/pod.yaml` and `docker-compose.yml` show how containers are wired and share `/data`.
 
@@ -23,8 +23,8 @@ Key facts an AI code assistant should know to be productive here:
   - `config/app_settings.yaml` contains the canonical defaults; runtime containers may override via env vars.
 
 - Developer workflows (how to run & debug locally)
-  - Fast local: run services directly from their `services/...` scripts. Example to run web:
-    - `python services/web/server.py` (expects plot at `PLOT_PATH`).
+  - Fast local: run services directly from their `services/...` scripts. For the web front-end you can preview the static `index.html` locally with a simple HTTP server, for example:
+    - `python -m http.server 8000 --directory containers/web` (then open `http://localhost:8000`)
   - Containerized: `docker-compose up --build` uses `docker-compose.yml` and container Dockerfiles under `containers/`.
   - Kubernetes-style: `pod/pod.yaml` demonstrates a single Pod running all containers.
   - Containerized (Podman-focused helpers): a `Makefile` provides convenient targets to build images and run the pod. Notable targets:
@@ -46,7 +46,7 @@ Key facts an AI code assistant should know to be productive here:
 - Files to reference when making changes
   - `services/collector/collector.py` — DB schema (measurements table) and insert pattern.
   - `services/trend/trend.py` — SQL query for last hour: `WHERE ts >= ?` and Matplotlib usage.
-  - `services/web/server.py` — Flask routes and how plot is served (returns 404 when missing).
+  - `containers/web/index.html` — static front-end served by `nginx` (the generated `plot.png` is read from the mounted `/data/plot.png`).
   - `services/db_manager/db_manager.py` — backup naming convention `pods-poc_<timestamp>.db`.
   - `config/app_settings.yaml`, `docker-compose.yml`, `pod/pod.yaml` — runtime wiring examples.
   - `services/db_manager/scripts/` — shell helpers: `pull-db.sh`, `push-db.sh`, `backup-once.sh`, and `entrypoint.sh`. These are intended to be run inside the `containers/storage` image.
