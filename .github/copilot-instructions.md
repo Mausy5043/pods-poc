@@ -2,6 +2,8 @@ This repository is a small multi-container "pods" proof-of-concept that runs fou
 
 Key facts an AI code assistant should know to be productive here:
 
+- Read the `README.md` first.
+
 - Architecture: four lightweight services live in `services/` and are containerized under `containers/`.
   - `services/collector/collector.py` — writes randomized measurements into a SQLite DB.
   - `services/trend/trend.py` — reads recent measurements, renders a Matplotlib plot to disk.
