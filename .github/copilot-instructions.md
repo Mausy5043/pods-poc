@@ -1,4 +1,4 @@
-This repository is a small multi-container "pods" proof-of-concept that runs four cooperating Python services sharing a host-mounted /data volume.
+This repository is a small multi-container "pods" proof-of-concept that runs four cooperating services sharing a host-mounted /data volume.
 
 Key facts an AI code assistant should know to be productive here:
 
@@ -46,5 +46,5 @@ Key facts an AI code assistant should know to be productive here:
 
 - Agent edit policy
   - Agents are allowed to make inline, minimal edits to repository files when explicitly requested by a human. Keep changes small, follow existing patterns, and run quick local checks (run the modified script or read it) when feasible. Document edits in the commit message or PR description and prefer non-destructive changes (do not delete unrelated code).
-
-If any section is unclear or you want me to include extra automation (tests, linting, or a developer Makefile), say which area to expand and I'll update this file.
+  - Edits that cause an executable to require root-access or modify infrastructure configs (like Dockerfiles or pod specs) need explicit human approval before proceeding.
+  - After each edit review and update the `copilot-instructions.md` file to ensure the new changes are accurately reflected in these instructions.
