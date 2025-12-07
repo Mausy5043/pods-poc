@@ -1,0 +1,15 @@
+[Unit]
+Description=pods-poc storage push (rclone)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/path/to/repo
+Environment=RCLONE_REMOTE=dropbox:pods-poc_poc
+ExecStart=/usr/bin/podman run --rm -v /path/to/repo/data:/data -e RCLONE_REMOTE=$RCLONE_REMOTE pods-poc-storage:latest push
+TimeoutStartSec=5m
+
+[Install]
+WantedBy=multi-user.target
