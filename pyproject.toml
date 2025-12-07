@@ -37,7 +37,7 @@ indent-width = 4
 line-length = 98
 target-version = "py312"
 output-format = "concise"
-include = ["pyproject.toml", "bin/**/*.py"]
+include = ["pyproject.toml", "services/**/*.py"]
 exclude = [
     "legacy/",
     ".local/",
@@ -83,7 +83,6 @@ files = [
     "services/collector",
     "services/trend",
     "services/web",
-    "services/db_manager",
     ]
 
 
