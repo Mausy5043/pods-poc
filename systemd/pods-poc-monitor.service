@@ -7,7 +7,7 @@ After=network-online.target
 Type=oneshot
 User=root
 WorkingDirectory=/path/to/repo
-ExecStart=/usr/bin/env bash /path/to/repo/examples/systemd/pods-poc-monitor.sh
+ExecStart=/usr/bin/env bash /usr/local/bin/pods-poc-monitor.sh
 
 [Install]
 WantedBy=multi-user.target

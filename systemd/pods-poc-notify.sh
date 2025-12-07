@@ -4,7 +4,6 @@
 
 set -euo pipefail
 
-REPO_DIR=/path/to/repo
 NAME="$1"
 REPORT_DIR=/var/lib/pods-poc/reports
 mkdir -p "$REPORT_DIR"

@@ -62,3 +62,11 @@ Key facts an AI code assistant should know to be productive here:
   - Edits that cause an executable to require root-access or modify infrastructure configs (like Dockerfiles or pod specs) need explicit human approval before proceeding.
   - Rclone/config note: the repo intentionally runs `rclone` from inside the `containers/storage` image. Do not assume `rclone` is available on the host. When changes require interactive `rclone config` steps, prefer instructing the developer to run `rclone` locally to create `~/.config/rclone/rclone.conf` and then mount that config into the container (see `make rclone-config`).
   - After each edit review and update the `copilot-instructions.md` file to ensure the new changes are accurately reflected in these instructions.
+
+- Install helper and server deploy notes
+- This repo contains `examples/systemd/install-units.sh` — a small installer that templates the example systemd unit files (replacing repository paths), copies them to `/etc/systemd/system`, and installs helper scripts to `/usr/local/bin` for the `podmin` deployment flow described in the README.
+- Typical server install flow (recommended for `podmin`):
+  1. Clone the repo to `/home/podmin` as the `podmin` user.
+  2. From the repo root run `make install` (this builds images and invokes `install-units.sh` with `sudo` to install the units). Alternatively run `sudo ./examples/systemd/install-units.sh --enable-all` manually.
+  3. Ensure `pymail.py` or an equivalent mail-sender is available on the PATH so notifier scripts can send alerts.
+  4. Verify units with `systemctl status pods-poc-monitor.timer` and journald logs.

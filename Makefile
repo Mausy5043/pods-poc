@@ -45,6 +45,11 @@ rebuild: ensure-deps
 	podman build --no-cache -t $(IMAGE_WEB) -f containers/web/Dockerfile .
 	podman build --no-cache -t $(IMAGE_STORAGE) -f containers/storage/Dockerfile .
 
+## One-shot install: build images and optionally install systemd units
+install: ensure-deps build
+	@echo "Running install-units.sh to install systemd units and helper scripts. You may be prompted for sudo."
+	@sudo ./examples/systemd/install-units.sh --enable-all || { echo "install-units failed; units not installed"; exit 1; }
+
 ## Create pod
 pod-create:
 	@echo "Creating pod $(POD_NAME) (port 8000 exposed, container port 80)..."

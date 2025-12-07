@@ -22,8 +22,6 @@ The project provides both simple local scripts (run Python directly) and a Podma
 
 Prerequisites:
 
-- Podman (or Docker if you prefer; Makefile targets use `podman`).
-- Make (for the provided `Makefile` targets).
 
 On macOS you can install Podman via Homebrew:
 
@@ -67,6 +65,27 @@ sudo loginctl enable-linger $(whoami)
 
 Note: the repository's `Makefile` contains an `install-deps` target that will attempt to detect your platform and install Podman (where supported). The `Makefile` intentionally does not install `rclone` on the host — `rclone` runs inside the `containers/storage` image and the container must be given a configured `rclone.conf` via a volume mount.
 
+Install on a server (example: `podmin` user)
+-------------------------------------------
+- Clone the repo as the service user, e.g. `/home/podmin`:
+
+```
+sudo -u podmin -i git clone https://github.com/your/repo.git /home/podmin/pods-poc
+cd /home/podmin/pods-poc
+```
+
+- Build images and install systemd units (installer will ask for `sudo` to copy units):
+
+```
+make install
+```
+
+- The `install-units.sh` script (under `examples/systemd`) templates unit paths and installs example systemd unit files and helper scripts to `/etc/systemd/system` and `/usr/local/bin`. It can enable the monitor and initial-pull units when run with `--enable-all`.
+
+- Requirements and notes:
+	- Ensure `pymail.py` (or an equivalent mail-sender) is installed and available on the PATH (the notifier uses `pymail.py -s -f`).
+	- rclone is optional on the host; the storage container includes `rclone`. If you prefer host `rclone`, set `INSTALL_RCLONE=1` or follow the Arch notes in `docs/arch.md`.
+	- After install, check units with `systemctl status pods-poc-monitor.timer` and `journalctl -u pods-poc-monitor.service` for the monitor outputs.
 ## Quick start (Podman + Makefile)
 
 Build images (this calls `ensure-deps` first):

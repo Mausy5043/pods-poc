@@ -7,7 +7,7 @@ After=network-online.target
 Type=oneshot
 User=root
 WorkingDirectory=/path/to/repo
-ExecStart=/usr/bin/env bash /path/to/repo/examples/systemd/pods-poc-notify.sh %i
+ExecStart=/usr/bin/env bash /usr/local/bin/pods-poc-notify.sh %i
 
 [Install]
 WantedBy=multi-user.target
