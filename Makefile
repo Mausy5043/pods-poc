@@ -10,6 +10,7 @@ IMAGE_STORAGE ?= pods-poc-storage:latest
 POD_NAME ?= pods-poc-pod
 DATA_DIR ?= $(PWD)/data
 RCLONE_REMOTE ?=
+INSTALL_RCLONE ?= 0
 
 .PHONY: help build rebuild install start stop restart status pod-create pod-rm pull-db install-deps ensure-deps rclone-config
 
@@ -101,10 +102,26 @@ install-deps:
 		elif command -v dnf >/dev/null 2>&1; then \
 			echo "Installing podman via dnf..."; sudo dnf -y install podman; \
 		elif command -v pacman >/dev/null 2>&1; then \
-			echo "Installing podman via pacman..."; sudo pacman -S --noconfirm podman; \
+				echo "Installing podman and make via pacman (system update)..."; sudo pacman -Syu --noconfirm podman make; \
 		else \
 			echo "Could not auto-install podman. Please install it manually: https://podman.io/getting-started/installation"; exit 1; \
 		fi }
+	# Optional: install rclone on the host if requested (set INSTALL_RCLONE=1)
+	if [ "$(INSTALL_RCLONE)" = "1" ]; then \
+		@echo "INSTALL_RCLONE=1; attempting to install rclone on host..."; \
+		command -v rclone >/dev/null 2>&1 || { \
+			if command -v brew >/dev/null 2>&1; then \
+				echo "Installing rclone via brew..."; brew install rclone; \
+			elif command -v apt-get >/dev/null 2>&1; then \
+				echo "Installing rclone via apt (requires sudo)..."; sudo apt-get update && sudo apt-get install -y rclone; \
+			elif command -v dnf >/dev/null 2>&1; then \
+				echo "Installing rclone via dnf..."; sudo dnf -y install rclone; \
+			elif command -v pacman >/dev/null 2>&1; then \
+				echo "Installing rclone via pacman..."; sudo pacman -S --noconfirm rclone; \
+			else \
+				echo "Could not auto-install rclone. Please install it manually: https://rclone.org/install/"; exit 1; \
+			fi }; \
+	fi
 ensure-deps: install-deps
 	@echo "All required build dependencies present."
 
