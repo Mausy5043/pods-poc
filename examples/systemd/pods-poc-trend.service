@@ -1,0 +1,22 @@
+[Unit]
+Description=pods-poc trend container
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/path/to/repo
+Restart=on-failure
+RestartSec=5
+StartLimitBurst=5
+StartLimitIntervalSec=300
+OnFailure=pods-poc-notify@%n.service
+
+ExecStartPre=-/usr/bin/podman pod inspect pods-poc-pod || /usr/bin/podman pod create --name pods-poc-pod -p 8000:80
+ExecStart=/usr/bin/podman run --rm --name pods-poc-trend --pod pods-poc-pod -v /path/to/repo/data:/data pods-poc-trend:latest
+ExecStop=/usr/bin/podman stop -t 10 pods-poc-trend
+TimeoutStartSec=2m
+
+[Install]
+WantedBy=multi-user.target

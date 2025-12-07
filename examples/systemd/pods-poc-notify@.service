@@ -1,0 +1,13 @@
+[Unit]
+Description=pods-poc notifier for failed unit %i
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/path/to/repo
+ExecStart=/usr/bin/env bash /path/to/repo/examples/systemd/pods-poc-notify.sh %i
+
+[Install]
+WantedBy=multi-user.target

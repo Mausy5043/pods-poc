@@ -1,0 +1,24 @@
+[Unit]
+Description=pods-poc web container (nginx)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/path/to/repo
+Restart=on-failure
+RestartSec=5
+StartLimitBurst=5
+StartLimitIntervalSec=300
+# If recovery fails, trigger notifier
+OnFailure=pods-poc-notify@%n.service
+
+# Ensure pod exists (create if needed)
+ExecStartPre=-/usr/bin/podman pod inspect pods-poc-pod || /usr/bin/podman pod create --name pods-poc-pod -p 8000:80
+ExecStart=/usr/bin/podman run --rm --name pods-poc-web --pod pods-poc-pod -v /path/to/repo/data:/data pods-poc-web:latest
+ExecStop=/usr/bin/podman stop -t 10 pods-poc-web
+TimeoutStartSec=2m
+
+[Install]
+WantedBy=multi-user.target

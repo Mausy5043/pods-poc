@@ -1,0 +1,13 @@
+[Unit]
+Description=pods-poc periodic container monitor
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/path/to/repo
+ExecStart=/usr/bin/env bash /path/to/repo/examples/systemd/pods-poc-monitor.sh
+
+[Install]
+WantedBy=multi-user.target
