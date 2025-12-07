@@ -1,22 +1,22 @@
 database:
-  path: "/data/app.db"          # mounted volume shared across containers
-  backup_dir: "/data/backups"   # local backup directory
+    path: "/data/pods-poc.db" # mounted volume shared across containers
+    backup_dir: "/data/backups" # local backup directory
 
 collector:
-  interval_seconds: 10          # how often to write a random value
+    interval_seconds: 10 # how often to write a random value
 
 trend:
-  plot_output_path: "/data/plots"   # shared volume for generated plots
-  lookback_hours: 1
+    plot_output_path: "/data/plot.png" # shared path for generated plot image
+    lookback_hours: 1
 
 web:
-  host: "0.0.0.0"
-  port: 8080
-  plot_file: "/data/plots/trend.png"
+    host: "0.0.0.0"
+    port: 8080
+    plot_file: "/data/plot.png"
 
 storage:
-  backup_times: ["00:01", "08:01", "16:01"]   # 3 backups per day
-  dropbox_remote: "dropbox:pods-poc_poc"       # rclone remote
-  local_data_dir: "/data"
-  on_start_sync: true
-  on_shutdown_sync: true
+    backup_times: [ "00:01", "08:01", "16:01" ] # 3 backups per day
+    dropbox_remote: "dropbox:pods-poc_poc" # rclone remote
+    local_data_dir: "/data"
+    on_start_sync: true
+    on_shutdown_sync: true
