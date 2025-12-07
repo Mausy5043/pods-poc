@@ -37,7 +37,7 @@ podman run --rm -v ~/.config/rclone/rclone.conf:/config/rclone.conf -v /path/to/
 
 6) Systemd notes
 
-- If you use the example systemd units in `examples/systemd/`, ensure they mount your rclone config into the container and that the ExecStart path to podman is correct for your system (usually /usr/bin/podman).
+- If you use the example systemd units in `systemd/`, ensure they mount your rclone config into the container and that the ExecStart path to podman is correct for your system (usually /usr/bin/podman).
 - On Arch the socket activation above is recommended so services can talk to Podman reliably.
 
 7) Troubleshooting

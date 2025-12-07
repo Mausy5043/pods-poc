@@ -52,7 +52,7 @@ Key facts an AI code assistant should know to be productive here:
   - `services/db_manager/scripts/` — shell helpers: `pull-db.sh`, `push-db.sh`, `backup-once.sh`, and `entrypoint.sh`. These are intended to be run inside the `containers/storage` image.
   - `containers/storage/Dockerfile` — installs `rclone` and copies the db_manager scripts into the image; the container is the intended runtime for rclone-based sync operations.
   - `Makefile` — podman-friendly targets and ordering (initial pull -> collector -> trend -> web).
-  - `examples/systemd/` — sample `systemd` service and timer units to schedule backup/push jobs on a host (optional; these expect the storage image and a mounted `rclone` config).
+  - `systemd/` — sample `systemd` service and timer units to schedule backup/push jobs on a host (optional; these expect the storage image and a mounted `rclone` config).
 
 - When opening PRs
   - Document why a change alters cross-service behavior (e.g., DB schema changes, different file paths, or backup timing). Mention how you validated changes locally (which services you ran and sample output).
@@ -64,9 +64,9 @@ Key facts an AI code assistant should know to be productive here:
   - After each edit review and update the `copilot-instructions.md` file to ensure the new changes are accurately reflected in these instructions.
 
 - Install helper and server deploy notes
-- This repo contains `examples/systemd/install-units.sh` — a small installer that templates the example systemd unit files (replacing repository paths), copies them to `/etc/systemd/system`, and installs helper scripts to `/usr/local/bin` for the `podmin` deployment flow described in the README.
+- This repo contains `systemd/install-units.sh` — a small installer that templates the example systemd unit files (replacing repository paths), copies them to `/etc/systemd/system`, and installs helper scripts to `/usr/local/bin` for the `podmin` deployment flow described in the README.
 - Typical server install flow (recommended for `podmin`):
   1. Clone the repo to `/home/podmin` as the `podmin` user.
-  2. From the repo root run `make install` (this builds images and invokes `install-units.sh` with `sudo` to install the units). Alternatively run `sudo ./examples/systemd/install-units.sh --enable-all` manually.
+  2. From the repo root run `make install` (this builds images and invokes `install-units.sh` with `sudo` to install the units). Alternatively run `sudo ./systemd/install-units.sh --enable-all` manually.
   3. Ensure `pymail.py` or an equivalent mail-sender is available on the PATH so notifier scripts can send alerts.
   4. Verify units with `systemctl status pods-poc-monitor.timer` and journald logs.

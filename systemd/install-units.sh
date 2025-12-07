@@ -10,7 +10,7 @@ usage() {
   cat <<EOF
 Usage: sudo ./install-units.sh [--enable-all]
 
-This script copies example systemd unit files from ./examples/systemd into /etc/systemd/system,
+This script copies example systemd unit files from ./systemd into /etc/systemd/system,
 installs helper scripts to /usr/local/bin, replaces the placeholder /path/to/repo in unit files
 with the current repository path, reloads systemd, and optionally enables the monitor timer and
 the example container units.
@@ -27,11 +27,10 @@ fi
 
 REPO_DIR=$(pwd)
 SYSTEMD_DIR=/etc/systemd/system
-SCRIPTS=(pods-poc-monitor.sh pods-poc-notify.sh pods-poc-notify.sh)
 
-echo "Installing systemd units from $(pwd)/examples/systemd to $SYSTEMD_DIR"
+echo "Installing systemd units from $(pwd)/systemd to $SYSTEMD_DIR"
 
-for f in examples/systemd/*.service examples/systemd/*.timer; do
+for f in systemd/*.service systemd/*.timer; do
   [ -f "$f" ] || continue
   dst="$SYSTEMD_DIR/$(basename "$f")"
   echo "Templating $f -> $dst"
@@ -40,7 +39,7 @@ done
 
 echo "Installing scripts to /usr/local/bin"
 sudo mkdir -p /usr/local/bin
-for s in examples/systemd/*.sh; do
+for s in systemd/*.sh; do
   [ -f "$s" ] || continue
   base=$(basename "$s")
   dst="/usr/local/bin/$base"

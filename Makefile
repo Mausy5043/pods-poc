@@ -48,7 +48,7 @@ rebuild: ensure-deps
 ## One-shot install: build images and optionally install systemd units
 install: ensure-deps build
 	@echo "Running install-units.sh to install systemd units and helper scripts. You may be prompted for sudo."
-	@sudo ./examples/systemd/install-units.sh --enable-all || { echo "install-units failed; units not installed"; exit 1; }
+	@sudo ./systemd/install-units.sh --enable-all || { echo "install-units failed; units not installed"; exit 1; }
 
 ## Create pod
 pod-create:

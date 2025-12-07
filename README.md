@@ -80,7 +80,7 @@ cd /home/podmin/pods-poc
 make install
 ```
 
-- The `install-units.sh` script (under `examples/systemd`) templates unit paths and installs example systemd unit files and helper scripts to `/etc/systemd/system` and `/usr/local/bin`. It can enable the monitor and initial-pull units when run with `--enable-all`.
+- The `install-units.sh` script (under `systemd/`) templates unit paths and installs example systemd unit files and helper scripts to `/etc/systemd/system` and `/usr/local/bin`. It can enable the monitor and initial-pull units when run with `--enable-all`.
 
 - Requirements and notes:
 	- Ensure `pymail.py` (or an equivalent mail-sender) is installed and available on the PATH (the notifier uses `pymail.py -s -f`).
@@ -141,7 +141,7 @@ When running in containers the Makefile maps host port `8000` → container port
 
 ## Systemd examples (optional)
 
-There are example `systemd` service and timer units in `examples/systemd/` showing how to schedule periodic backup/push jobs using the storage image. These units expect the storage image and a mounted `rclone` config on the host.
+There are example `systemd` service and timer units in `systemd/` showing how to schedule periodic backup/push jobs using the storage image. These units expect the storage image and a mounted `rclone` config on the host.
 
 ## Where to look next
 
